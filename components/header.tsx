@@ -12,7 +12,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Leaf className="h-6 w-6 text-primary" />
           <Link href="/" className="text-xl font-bold">
-            Genai Genesis
+            Eden
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6">
