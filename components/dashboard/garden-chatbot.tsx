@@ -37,7 +37,12 @@ export function GardenChatbot({
   const { user } = useAuth();
   const [messages, setMessages] = useState<
     Array<{ role: string; content: string }>
-  >([]);
+  >([
+    {
+      role: "bot",
+      content: "Hi, I'm your plant AI assistant. I'm here to help you with your gardening needs!",
+    }
+  ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [activePlant, setActivePlant] = useState<string | null>(null);
@@ -46,13 +51,6 @@ export function GardenChatbot({
   useEffect(() => {
     if (user) {
       fetchChatHistory();
-    } else {
-      setMessages([
-        {
-          role: "bot",
-          content: "Please log in to access your personalized plant assistant.",
-        },
-      ]);
     }
   }, [user, activePlant]);
 
@@ -67,7 +65,7 @@ export function GardenChatbot({
   };
 
   const handleSend = async () => {
-    if (!input.trim() || !user) return;
+    if (!input.trim()) return;
 
     // Add user message
     const userMessage = { role: "user", content: input };
@@ -203,13 +201,13 @@ export function GardenChatbot({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            disabled={isLoading || !user}
+            disabled={isLoading}
             className="flex-grow"
           />
           <Button
             size="icon"
             onClick={handleSend}
-            disabled={isLoading || !input.trim() || !user}
+            disabled={isLoading || !input.trim()}
           >
             <Send className="h-4 w-4" />
             <span className="sr-only">Send</span>
