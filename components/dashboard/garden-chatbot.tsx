@@ -50,7 +50,7 @@ export function GardenChatbot({
       setMessages([
         {
           role: "bot",
-          content: "Please log in to access your personalized plant assistant.",
+          content: "Hi, I'm your plant AI assistant. I'm here to help you with your gardening needs!",
         },
       ]);
     }
