@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import {
   Card,
@@ -32,6 +33,7 @@ export function GardenChatbot({
   className,
   recommendedPlants = [],
 }: GardenChatbotProps) {
+  const router = useRouter();
   const { user } = useAuth();
   const [messages, setMessages] = useState<
     Array<{ role: string; content: string }>
@@ -56,31 +58,11 @@ export function GardenChatbot({
 
   const fetchChatHistory = async () => {
     try {
-      setIsLoading(true);
-      const response = await fetch(
-        `/api/chat-history?${activePlant ? `plant=${activePlant}` : ""}`
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(data.history || []);
-
-        // If no history, add welcome message
-        if (!data.history || data.history.length === 0) {
-          setMessages([
-            {
-              role: "bot",
-              content: activePlant
-                ? `Hello! I'm your ${activePlant} specialist. What would you like to know about caring for your ${activePlant}?`
-                : "Hello! I'm your personalized plant assistant. Select a plant to get specialized care advice.",
-            },
-          ]);
-        }
-      }
+      const response = await fetch("/api/chat-history");
+      const data = await response.json();
+      setMessages(data.history || []);
     } catch (error) {
       console.error("Failed to fetch chat history:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -89,25 +71,28 @@ export function GardenChatbot({
 
     // Add user message
     const userMessage = { role: "user", content: input };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
-    setInput("");
+    setMessages((prev) => [...prev, userMessage]);
+
+    const tempInput = input;
+    setInput(""); // Clear input field
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
-
-      const response = await fetch("/api/chat", {
+      // Use the new NicksAI endpoint
+      const response = await fetch("/api/nicksai/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          message: input,
+          message: tempInput,
           plant: activePlant,
-          history: messages.slice(-10), // Send recent context
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
+        // Add bot response
         setMessages((prev) => [
           ...prev,
           { role: "bot", content: data.response },
@@ -116,13 +101,13 @@ export function GardenChatbot({
         throw new Error("Failed to get response");
       }
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("Error sending message:", error);
       setMessages((prev) => [
         ...prev,
         {
           role: "bot",
           content:
-            "Sorry, I'm having trouble connecting right now. Please try again later.",
+            "Sorry, I'm having trouble connecting to the server. Please try again later.",
         },
       ]);
     } finally {
@@ -130,93 +115,106 @@ export function GardenChatbot({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   return (
-    <Card className={`flex flex-col h-[600px] ${className}`}>
+    <Card className={`flex flex-col h-[500px] ${className}`}>
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <div>
-            <CardTitle>Plant Care Assistant</CardTitle>
-            <CardDescription>Your personal AI gardening expert</CardDescription>
-          </div>
-
-          {recommendedPlants && recommendedPlants.length > 0 && (
-            <Select value={activePlant || ""} onValueChange={setActivePlant}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select plant" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All plants</SelectItem>
-                {recommendedPlants.map((plant) => (
-                  <SelectItem key={plant.id} value={plant.name}>
-                    {plant.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        </div>
+        <CardTitle>Plant AI Assistant</CardTitle>
+        <CardDescription>
+          Powered by NicksAI - Ask questions about plant care
+        </CardDescription>
+        <Select
+          value={activePlant || ""}
+          onValueChange={(value) => setActivePlant(value || null)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a plant" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All plants</SelectItem>
+            {recommendedPlants.map((plant) => (
+              <SelectItem key={plant.id} value={plant.name}>
+                {plant.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </CardHeader>
-
-      <CardContent className="flex-1 overflow-hidden">
+      <CardContent className="flex-grow overflow-hidden p-4">
         <ScrollArea className="h-full pr-4">
-          <div className="space-y-4">
-            {messages.map((message, index) => (
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex ${
+                message.role === "user" ? "justify-end" : "justify-start"
+              } mb-4`}
+            >
+              {message.role === "bot" && (
+                <Avatar className="h-8 w-8 mr-2">
+                  <AvatarImage src="/bot-avatar.png" alt="Bot" />
+                  <AvatarFallback>AI</AvatarFallback>
+                </Avatar>
+              )}
               <div
-                key={index}
-                className={`flex ${
-                  message.role === "user" ? "justify-end" : "justify-start"
+                className={`max-w-[80%] p-3 rounded-lg ${
+                  message.role === "user"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted"
                 }`}
               >
-                <div
-                  className={`${
-                    message.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
-                  } p-3 rounded-lg max-w-[80%]`}
-                >
-                  {message.role === "bot" && (
-                    <Avatar className="h-6 w-6 mr-2 inline-block align-middle">
-                      <AvatarImage src="/bot-avatar.png" alt="AI" />
-                      <AvatarFallback>AI</AvatarFallback>
-                    </Avatar>
-                  )}
-                  {message.content}
+                {message.content}
+              </div>
+              {message.role === "user" && (
+                <Avatar className="h-8 w-8 ml-2">
+                  <AvatarImage src="/user-avatar.png" alt="User" />
+                  <AvatarFallback>
+                    {user?.name?.charAt(0) || "U"}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+            </div>
+          ))}
+          {isLoading && (
+            <div className="flex justify-start mb-4">
+              <Avatar className="h-8 w-8 mr-2">
+                <AvatarFallback>AI</AvatarFallback>
+              </Avatar>
+              <div className="max-w-[80%] p-3 rounded-lg bg-muted">
+                <div className="flex space-x-1">
+                  <div className="animate-bounce h-2 w-2 bg-gray-500 rounded-full"></div>
+                  <div className="animate-bounce-delay-100 h-2 w-2 bg-gray-500 rounded-full"></div>
+                  <div className="animate-bounce-delay-200 h-2 w-2 bg-gray-500 rounded-full"></div>
                 </div>
               </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-muted p-3 rounded-lg">
-                  <Avatar className="h-6 w-6 mr-2 inline-block align-middle">
-                    <AvatarFallback>AI</AvatarFallback>
-                  </Avatar>
-                  Thinking...
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </ScrollArea>
       </CardContent>
-
-      <CardFooter>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="flex w-full items-center space-x-2"
-        >
+      <CardFooter className="border-t p-4">
+        <div className="flex w-full items-center space-x-2">
           <Input
             placeholder="Type your message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             disabled={isLoading || !user}
+            className="flex-grow"
           />
-          <Button type="submit" size="icon" disabled={isLoading || !user}>
+          <Button
+            size="icon"
+            onClick={handleSend}
+            disabled={isLoading || !input.trim() || !user}
+          >
             <Send className="h-4 w-4" />
             <span className="sr-only">Send</span>
           </Button>
-        </form>
+        </div>
       </CardFooter>
     </Card>
   );

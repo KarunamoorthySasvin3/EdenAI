@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react"; // Add this import
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,18 +14,20 @@ export function OnboardingStepFour({
   formData,
   updateFormData,
 }: OnboardingStepFourProps) {
+  // Add this useEffect hook to sync with localStorage
+  useEffect(() => {
+    localStorage.setItem("onboardingData", JSON.stringify(formData));
+  }, [formData]);
+
   const goals = [
     { id: "carbon", label: "Carbon Sequestration" },
     { id: "water", label: "Water Conservation" },
     { id: "biodiversity", label: "Support Local Biodiversity" },
     { id: "food", label: "Grow Own Food" },
     { id: "beauty", label: "Create Beautiful Space" },
-    { id: "learning", label: "Educational Purpose" },
     { id: "cooling", label: "Reduce Urban Heat Island Effect" },
-    { id: "resilience", label: "Climate Change Resilience" },
-    { id: "research", label: "Contribute to Climate Data Research" },
-    { id: "adaptation", label: "Test Climate Adaptation Strategies" },
   ];
+
 
   const handleGoalChange = (id: string, checked: boolean) => {
     const currentGoals = [...(formData.goals || [])];

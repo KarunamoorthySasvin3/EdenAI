@@ -1,0 +1,47 @@
+[
+  {
+    id: "lavender",
+    name: "Lavender",
+    latinName: "Lavandula angustifolia",
+    description: "Drought-tolerant perennial with fragrant purple flowers.",
+    care: {
+      water: "Low",
+      light: "Full sun",
+      maintenance: "Low",
+    },
+    climate_features: [0.2, 0.8, 0.7, 0.9, 0.3],
+    tags: ["drought-resistant", "pollinator", "herb"],
+    carbonSequestration: "Medium",
+    image: "/plants/lavender.jpg",
+  },
+  {
+    id: "basil",
+    name: "Basil",
+    latinName: "Ocimum basilicum",
+    description: "Aromatic herb used in cooking, especially Italian cuisine.",
+    care: {
+      water: "Medium",
+      light: "Full sun to partial shade",
+      maintenance: "Low",
+    },
+    climate_features: [0.5, 0.7, 0.3, 0.7, 0.6],
+    tags: ["herb", "culinary", "annual"],
+    carbonSequestration: "Low",
+    image: "/plants/basil.jpg",
+  },
+  {
+    id: "aloe-vera",
+    name: "Aloe Vera",
+    latinName: "Aloe barbadensis miller",
+    description: "Succulent plant with medicinal properties.",
+    care: {
+      water: "Low",
+      light: "Bright indirect light",
+      maintenance: "Very low",
+    },
+    climate_features: [0.1, 0.6, 0.4, 0.6, 0.6],
+    tags: ["succulent", "medicinal", "indoor"],
+    carbonSequestration: "Low",
+    image: "/plants/aloe-vera.jpg",
+  },
+];

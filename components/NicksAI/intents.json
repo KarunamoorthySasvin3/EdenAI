@@ -1,0 +1,68 @@
+{
+    "intents":[
+        {
+            "tag": "greeting",
+            "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day"],
+            "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
+        },
+        {
+            "tag": "plant_dying",
+            "patterns": ["my plant is dying", "wilting plant", "yellow leaves", "plant not doing well", "sick plant", "plant problems", "drooping leaves", "brown spots", "plant health issues"],
+            "responses": [
+                "I'm sorry to hear about your plant! Check the basics first: 1) Is it getting the right amount of water? 2) Is the light appropriate? 3) Check for pests under leaves and on stems. What symptoms are you seeing?",
+                "Plant problems often come from watering issues - either too much or too little. Check if the soil is soggy or bone dry. Also examine for pests and ensure it has proper light for its species.",
+                "It could be several things. First, is the soil dry more than an inch down? If yes, it needs water. If wet, you might be overwatering. Also check light conditions and look closely for any pests or diseases."
+            ]
+        },
+        {
+            "tag": "overwatering",
+            "patterns": ["soggy soil", "overwatered", "yellow droopy leaves", "mushy stems", "root rot", "soil stays wet"],
+            "responses": [
+                "Sounds like overwatering. Let the soil dry out completely before watering again. For severe cases, you may need to repot with fresh, dry soil and trim any rotted roots.",
+                "Overwatering is a common issue. Allow the top 1-2 inches of soil to dry before watering again. Ensure your pot has drainage holes and never let the plant sit in standing water.",
+                "To save an overwatered plant: 1) Stop watering immediately 2) Move to a brighter spot 3) Consider repotting if soil is soggy 4) Remove any yellow or dying leaves 5) Only water when the top inch of soil is dry."
+            ]
+        },
+        {
+            "tag": "underwatering",
+            "patterns": ["crispy leaves", "underwatered", "dry soil", "brown leaf tips", "plant wilting", "leaves falling off dry"],
+            "responses": [
+                "This sounds like underwatering. Give your plant a good soak, allowing water to run through the drainage holes. For severely dry plants, bottom water by placing the pot in water for 30 minutes.",
+                "Underwatering symptoms include crispy leaves and dry soil. Water thoroughly until it drains from the bottom, and check soil moisture more frequently. Consider a watering schedule based on your plant's needs.",
+                "To revive an underwatered plant: 1) Water thoroughly 2) Mist the leaves to increase humidity 3) Remove any crispy dead parts 4) Consider moving away from heat sources 5) Check moisture more regularly going forward."
+            ]
+        },
+        {
+            "tag": "pest_problems",
+            "patterns": ["bugs on plant", "tiny insects", "white spots", "sticky leaves", "webs on plant", "holes in leaves", "pest infestation"],
+            "responses": [
+                "You might have pests. Common culprits include spider mites (tiny webs), aphids (small green insects), or mealybugs (white cotton-like spots). Try wiping leaves with diluted neem oil or insecticidal soap.",
+                "For pest control, isolate the affected plant first. Then treat with insecticidal soap, neem oil, or diluted rubbing alcohol depending on the pest. Be consistent with treatment every 7-10 days.",
+                "Pests can spread quickly. Identify the specific pest if possible, isolate the plant, and treat with appropriate solutions. For mild cases, simply wiping leaves with soapy water may help. Check neighboring plants too."
+            ]
+        },
+        {
+            "tag": "light_issues",
+            "patterns": ["not enough light", "too much sun", "leggy plant", "stretching toward light", "sunburn", "light problems"],
+            "responses": [
+                "Light issues can cause problems. Stretching or legginess indicates too little light, while brown scorched patches suggest sunburn. Gradually adjust your plant's position to fix either issue.",
+                "If your plant is reaching toward light, it needs more brightness. If leaves have brown patches, it might be sunburned. Most plants prefer bright indirect light rather than harsh direct sun or deep shade.",
+                "For light problems: 1) Move sun-scorched plants away from direct light 2) Move leggy plants to brighter spots gradually 3) Rotate plants regularly so all sides get light 4) Consider grow lights for dark spaces."
+            ]
+        },
+        {
+            "tag": "nutrient_deficiency",
+            "patterns": ["yellow leaves", "slow growth", "pale leaves", "need fertilizer", "nutrient problem"],
+            "responses": [
+                "Your plant might have a nutrient deficiency. Yellowing leaves often indicate nitrogen deficiency, while purple/reddish leaves can suggest phosphorus issues. Try a balanced houseplant fertilizer at half-strength.",
+                "If you haven't fertilized in months, nutrient deficiency could be the issue. Use a balanced fertilizer following package directions, but at half strength to avoid burning roots. Spring and summer are ideal feeding times.",
+                "For nutrient problems: 1) Use a balanced houseplant fertilizer 2) Don't fertilize dry plants - water first 3) Fertilize mainly during growing season 4) Start with half-strength doses 5) Consider repotting if the plant has been in the same soil for years."
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["bye", "see you later", "goodbye", "I'm done"],
+            "responses": ["Happy gardening!", "Goodbye! Come back when your garden needs more advice!", "Take care of those plants!"]
+        }
+    ]
+}

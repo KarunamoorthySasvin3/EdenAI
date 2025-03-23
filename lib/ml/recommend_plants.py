@@ -1,7 +1,7 @@
 import sys
 import json
 import torch
-from .plant_recommendation_model import PlantRecommender
+from plant_recommendation_model import PlantRecommender
 
 def main():
     """

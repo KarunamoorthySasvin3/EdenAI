@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
-/*import db from "./db";*/
 import { Session } from "next-auth";
 
 // Extend the Session type to include user id
@@ -14,7 +13,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
-    }
+    };
   }
 }
 
@@ -40,9 +39,6 @@ export const authOptions: NextAuthOptions = {
           );
 
           const user = userCredential.user;
-
-          // Get additional user data from your database if needed
-          // const userData = await db.user.findUnique({ where: { email: user.email } });
 
           return {
             id: user.uid,
@@ -72,7 +68,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (token && session.user) {
+      if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
@@ -84,6 +80,18 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
     error: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
+  secret:
+    process.env.NEXTAUTH_SECRET || "your-fallback-secret-should-be-changed",
   debug: process.env.NODE_ENV === "development",
 };

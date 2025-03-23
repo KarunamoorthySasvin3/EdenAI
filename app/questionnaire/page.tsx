@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -19,90 +19,93 @@ import {
 export default function QuestionnairePage() {
   const { user } = useAuth();
   const router = useRouter();
+  const [sunlight, setSunlight] = useState("full");
+  const [maintenanceFrequency, setMaintenanceFrequency] = useState("weekly");
+  const [spaceAvailable, setSpaceAvailable] = useState(50);
+  const [experienceLevel, setExperienceLevel] = useState("beginner");
+  const [plantPurpose, setPlantPurpose] = useState("decoration");
 
-  // Preference states
-  const [lightLevel, setLightLevel] = useState<string>("medium");
-  const [waterFrequency, setWaterFrequency] = useState<string>("weekly");
-  const [spaceAvailable, setSpaceAvailable] = useState<number>(50);
-  const [experienceLevel, setExperienceLevel] = useState<string>("beginner");
-  const [plantPurpose, setPlantPurpose] = useState<string>("decoration");
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
-  // Submit form handler
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("/api/user/preferences", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lightLevel,
-          waterFrequency,
-          spaceAvailable,
-          experienceLevel,
-          plantPurpose,
-        }),
-      });
+    // Collect all form data
+    const formData = {
+      sunlight,
+      maintenanceFrequency,
+      spaceAvailable,
+      experienceLevel,
+      plantPurpose,
+    };
 
-      if (response.ok) {
-        router.push("/recommendations");
-      } else {
-        throw new Error("Failed to save preferences");
-      }
+    // Save preferences to user profile (implementation depends on your backend)
+    try {
+      // Redirect to recommendations page with preferences as query params
+      router.push(
+        `/recommendations?${new URLSearchParams(formData as any).toString()}`
+      );
     } catch (error) {
       console.error("Error saving preferences:", error);
     }
   };
 
+  if (!user) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="container max-w-3xl py-10">
+    <div className="container max-w-xl py-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">
-            Tell Us About Your Plant Needs
-          </CardTitle>
+          <CardTitle className="text-2xl">Plant Preferences</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Light Level */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Sunlight Availability */}
             <div className="space-y-2">
-              <Label>How much light does your space receive?</Label>
+              <Label>Sunlight availability:</Label>
               <RadioGroup
-                value={lightLevel}
-                onValueChange={setLightLevel}
+                value={sunlight}
+                onValueChange={setSunlight}
                 className="flex flex-col space-y-1"
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="low" id="light-low" />
-                  <Label htmlFor="light-low">
-                    Low Light (Shade, North-facing windows)
+                  <RadioGroupItem value="full" id="full" />
+                  <Label htmlFor="full">
+                    Full sun (6+ hours direct sunlight)
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="medium" id="light-medium" />
-                  <Label htmlFor="light-medium">
-                    Medium Light (Partial Shade, East/West-facing)
-                  </Label>
+                  <RadioGroupItem value="partial" id="partial" />
+                  <Label htmlFor="partial">Partial sun (3-6 hours)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="high" id="light-high" />
-                  <Label htmlFor="light-high">
-                    Bright Light (Full Sun, South-facing)
+                  <RadioGroupItem value="shade" id="shade" />
+                  <Label htmlFor="shade">
+                    Mostly shade (less than 3 hours)
                   </Label>
                 </div>
               </RadioGroup>
             </div>
 
-            {/* Watering Frequency */}
+            {/* Maintenance Frequency */}
             <div className="space-y-2">
-              <Label>How often would you like to water plants?</Label>
-              <Select value={waterFrequency} onValueChange={setWaterFrequency}>
+              <Label>How often can you maintain your plants?</Label>
+              <Select
+                value={maintenanceFrequency}
+                onValueChange={setMaintenanceFrequency}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select watering frequency" />
+                  <SelectValue placeholder="Select frequency" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="weekly">Once a week</SelectItem>
                   <SelectItem value="biweekly">Every two weeks</SelectItem>
                   <SelectItem value="monthly">Monthly or less</SelectItem>
                 </SelectContent>
