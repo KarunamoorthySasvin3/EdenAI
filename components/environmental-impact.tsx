@@ -126,8 +126,7 @@ export function EnvironmentalImpact() {
                 <li>Water conservation projections</li>
               </ul>
               <p className="text-sm text-muted-foreground mt-2">
-                Based on PyTorch models trained on climate data from 1,000+
-                gardens worldwide
+                Learn how your garden can help mitigate climate change using the information given
               </p>
             </CardContent>
           </Card>

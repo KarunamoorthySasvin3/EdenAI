@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react" // Add this import
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -8,7 +9,13 @@ interface OnboardingStepThreeProps {
   updateFormData: (data: any) => void
 }
 
+
 export function OnboardingStepThree({ formData, updateFormData }: OnboardingStepThreeProps) {
+  // Add this useEffect hook to sync with localStorage
+  useEffect(() => {
+    localStorage.setItem("onboardingData", JSON.stringify(formData))
+  }, [formData])
+
   const preferences = [
     { id: "edible", label: "Edible Plants (vegetables, fruits, herbs)" },
     { id: "flowers", label: "Ornamental Flowers" },

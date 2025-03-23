@@ -34,18 +34,41 @@ export default function OnboardingPage() {
   const totalSteps = 4;
   const progress = (step / totalSteps) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < totalSteps) {
       setStep(step + 1);
     } else {
-      // Submit data and redirect to dashboard
-      router.push("/dashboard");
+      try {
+        // First, save to localStorage as backup
+        localStorage.setItem("onboardingData", JSON.stringify(formData));
+
+        // Then attempt to save to server
+        const response = await fetch("/api/user/onboarding", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include", // Important for auth cookies
+        });
+
+        // If unauthorized or other error, still proceed to dashboard
+        // but data is saved in localStorage for later sync
+        router.push("/dashboard");
+      } catch (error) {
+        console.error("Failed to save onboarding data:", error);
+        // Save to localStorage and continue
+        localStorage.setItem("onboardingData", JSON.stringify(formData));
+        router.push("/dashboard");
+      }
     }
   };
 
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
+    } else {
+      router.push("/");
     }
   };
 
@@ -91,8 +114,8 @@ export default function OnboardingPage() {
           )}
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={handleBack} disabled={step === 1}>
-            Back
+          <Button variant="outline" onClick={handleBack}>
+            {step > 1 ? "Back" : "Home"}
           </Button>
           <Button onClick={handleNext}>
             {step === totalSteps ? "Complete Setup" : "Next"}

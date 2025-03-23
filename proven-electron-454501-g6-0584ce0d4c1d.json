@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "proven-electron-454501-g6",
+  "private_key_id": "0584ce0d4c1d3a9db3db71e138e37bc20a4543d8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDau6Tcwjz83SHu\n66iEltoeFmGmBeCAmDJfhXXkrJEhJ0HuLRHS1rVlejVrHoiF9BhnCNT5hgPjq70r\nbkSh+p/guiP+/DiDUc869569RVOGWCKQ7mBLEHceSCWUuFazxjw2W/QUFuGcC0Lk\nwP8b1K+RPYvqEw80RukmIJETtNHEOu8n3kLROK0nJn5heXnjsIr/gZzLCl1hGV+N\nXxCAhc5SrDYkzKIPRfw1AFuI5+wOjb0Hd+Xiid9+vJ6XJimAlIvLurc/UnQLK83I\nopqyxhacTyjolvKSdDaYDczeMvctGthaqmqo4N3ucbJyDIPSd6oTObCPqweudZFo\nhHhe8eIRAgMBAAECggEACmzw7COih2U0AkeWXhkzvfv01B+OcdKqtkWyf/rtHIRI\ngQ6UT8LqZnwc/fwUAuw0Y0TXEeEL8mk83QMUMc6PdWnOco90wPkJjZbSuvkKFvzl\nAgZM7dAmPVVCbnJAkfmcCRoc6iKAfdD8vK1gjb9S4BfrwVC1iIbsJ61b/N8KWIhB\nKqAytGvvhP5DtVA9rDUcof9FoWhK7yEpmghgX8N+aiOFuXOpurwgRtjAyu/UNOKp\nTdsKAPkyn33qrmAMVn8J9LqGObJhKw6+/0WmvcGNSiIK2/gaI66/VOdn114qy6iL\no9BUoYgGPLzHlvFbD9RMHWPmaaZFCB2v5yrvP14v2QKBgQDvtG/CYFkISb8CXye2\nCjcZLCici3HZT6oQr2zgvuuB/D9sxpmAilPbqDG6I2HGlXYIQEinA2BncW+dQdgQ\nr4qtvCt+RK8zjiuk+im6eVxPwaAH+HlQaXKKX4gpdjHS6ZHBoO34ayayXf/XGdjQ\nB+o383QY18n+7BG5vYSDwyEdjwKBgQDpmjxynzT5b2qogmfPzSnzbqtiHaBa/4Oe\nl4myhP3AggGONhG2zm9c+b6e2Kc1dDio0TmbUILI5T1ffF9Rq9X3Il6UucZB2H3N\nOkUmeNhCI3GJBKp3xcsUJKz2O7Oxlvi4bQeksGiiK7jlRaBZYZBUmXvNukIg8G+Y\nbF2JOXh2XwKBgF+QgD3uS5CSViSL6zkYOX8/q7E9ptYMfLDKP44aj6ny9xZW1zv3\n6hbYp3qeQIz7aWNAvbZYEkcrYmQ/q/R7B77cFjrxByh2tc/ALIK7f6IMf9Ctry/v\n2kpwa8ib5qE/nWykzDsN/Q9/ilAnbdkCTs6fsNl2roGDfE2g0QP292zhAoGBAL41\ngzDFp8nOyecJv+O5J4Z6v3v1qaNO2Goi89Dzbvb4JLIaHpReRNlM1cTbnlLtHlF/\ng0uO498WocGFMMv8gg1n4+Fv3xmwYMbhwnqP/W7lE0ZBEVjTKgdt0ZPxiuB4kG8D\nAC0+IwShWzz8U5NT2MS58M/T8JKHlCZlXkglDow7AoGBAMg5tTpCKOJbWQTCBTmm\n28XRYxnYuE1tMRR4MN2cxpcWRPhqjSX1TShePEhxul6iwIcio3lYFOt7YVl3H68+\n66dxX+wl3l/5u9DHWI3vSTP1r67WQ1SW+GXvd4536ehtZ4XMbaBYXFO2crVPQX7H\nMP3L78qXFBayV8p/cOPIN9y0\n-----END PRIVATE KEY-----\n",
+  "client_email": "e-39-920@proven-electron-454501-g6.iam.gserviceaccount.com",
+  "client_id": "110159112895605619172",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/e-39-920%40proven-electron-454501-g6.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

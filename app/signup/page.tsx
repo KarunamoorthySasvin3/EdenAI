@@ -29,20 +29,62 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setError(null);
 
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      setError("Passwords don't match");
-      return;
-    }
-
-    setLoading(true);
     try {
-      await signup(name, email, password);
-      router.push("/questionnaire");
-    } catch (err: any) {
-      setError(err.message || "Failed to create account");
+      // Validate form inputs first
+      if (!email || !password || password.length < 6) {
+        setError(
+          password.length < 6
+            ? "Password must be at least 6 characters"
+            : "Please fill in all required fields"
+        );
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      // Check for non-OK responses first
+      if (!response.ok) {
+        const errorText = await response.text(); // Use text() instead of json() to avoid parsing errors
+        console.log("Raw error response:",errorText);
+        try {
+          // Try to parse as JSON if possible
+          const errorData = JSON.parse(errorText);
+          throw new Error(errorData.error || "Signup failed");
+        } catch (parseError) {
+          // If parsing fails, use the raw text or a default message
+          throw new Error(errorText || "Signup failed with an unknown error");
+        }
+      }
+
+      // For successful responses, safely parse JSON
+      let data;
+      try {
+        const responseText = await response.text();
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        throw new Error("Invalid response from server");
+      }
+
+      // Handle successful signup
+      if (data.success) {
+        router.push("/questionnaire");
+      } else {
+        throw new Error(data.error || "Signup failed");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setError(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,11 @@
 "use client"
 
+import { useEffect } from "react"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Input } from "@/components/ui/input"
 import { MapPin } from "lucide-react"
+
 
 interface OnboardingStepOneProps {
   formData: any
@@ -11,6 +13,11 @@ interface OnboardingStepOneProps {
 }
 
 export function OnboardingStepOne({ formData, updateFormData }: OnboardingStepOneProps) {
+  // Sync with localStorage whenever formData changes
+  useEffect(() => {
+    localStorage.setItem("onboardingData", JSON.stringify(formData))
+  }, [formData])
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">

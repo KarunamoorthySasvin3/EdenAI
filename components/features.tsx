@@ -44,6 +44,8 @@ export function Features() {
             </CardHeader>
             <CardContent>
               <CardDescription>
+                <br />
+                <br />
                 PyTorch-based neural networks analyze regional climate models to
                 recommend plants that will thrive as temperatures rise.
               </CardDescription>
@@ -59,6 +61,7 @@ export function Features() {
             </CardHeader>
             <CardContent>
               <CardDescription>
+                <br/>
                 Chat with an AI trained on climate science research to
                 understand how your garden choices impact global warming.
               </CardDescription>

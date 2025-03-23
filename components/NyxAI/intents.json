@@ -1,0 +1,78 @@
+{
+    "intents":[
+        {
+            "tag": "sandy_soil_recommendations",
+            "patterns": [
+                "plants for sandy soil", 
+                "what grows in sand", 
+                "sandy garden recommendations", 
+                "best plants for sandy soil",
+                "outdoor plants for sandy soil",
+                "indoor plants for sandy soil",
+                "sandy soil hot climate",
+                "sandy soil cold climate"
+            ],
+            "responses": [
+                "Outdoors Lavender[Drought-resistant,with,aromatic,foliage.,This,plant,is,pollinator-freindly,and,absorbs,carbon,dioxide] Sedum[Succulent,with,colorful,blooms.,Controls,soil,erosion,and,helps,soil,health,and,other,plants,which,helps,absorption,of,CO2] Yarrow[Hardy,with,flat-topped,flower,clusters.,Sandy,soil,drains,quickly,and,warms,up,fast,in,spring,making,it,ideal,for,drought-tolerant,plants.",
+                "Indoor Echeveria[Rosette-shaped,beauties.,Low,water,usage.] Cacti varieties[Low-maintenance,and,architectural] String,of,Pearls[Trailing,with,bead-like,leaves.,These,plants,thrive,when,soil,dries,completely,between,waterings."
+            ]
+        },
+        {
+            "tag": "clay_soil_recommendations",
+            "patterns": [
+                "plants for clay soil", 
+                "what grows in clay", 
+                "clay garden recommendations", 
+                "best plants for clay soil",
+                "outdoor plants for clay soil",
+                "indoor plants for clay soil",
+                "clay soil hot climate",
+                "clay soil cold climate"
+            ],
+            "responses": [
+                "Outdoors Aster[Vibrant,fall,blooms,that,attract,pollinators] Baptisia[Structural,perennial,with,blue,flowers.,Controls,soil,and,enriches,soil.] Coneflower[drought-tolerant,once,established.,Clay,soil,holds,nutrients,well,but,can,become,compacted,so,adding,organic,matter,helps,improve,structure.]",
+                "Indoor Peace,Lily[elegant,white,blooms,tolerates,heavier,soil] Snake,Plant[upright,nearly,indestructible] Chinese,Evergreen[colorful,low-light tolerant.,For,these,plants,in,clay-heavy,mixes,be,careful,not,to,overwater,as,drainage,is,slower.]"
+            ]
+        },
+        {
+            "tag": "loam_soil_recommendations",
+            "patterns": [
+                "plants for loam soil", 
+                "what grows in loam", 
+                "loam garden recommendations", 
+                "best plants for loam soil",
+                "outdoor plants for loam soil",
+                "indoor plants for loam soil",
+                "loam soil hot climate",
+                "loam soil cold climate"
+            ],
+            "responses": [
+                "Outdoors Roses[classic,flowering,shrubs,with,many,varieties] Lilies[dramatic,summer,blooms,in,various,colors] Tomatoes[A,tasty,addition,to,your,garden.]",
+                "Indoor Fiddle,Leaf,Fig[dramatic,statement,plant] Monstera[trendy,with,distinctive,split,leaves] Philodendron[easy-care,vining,plant,with,heart-shaped,leaves.]"
+            ]
+        },
+        {
+            "tag": "silt_soil_recommendations",
+            "patterns": [
+                "plants for silt soil", 
+                "what grows in silt", 
+                "silt garden recommendations", 
+                "best plants for silt soil",
+                "outdoor plants for silt soil",
+                "indoor plants for silt soil",
+                "silt soil hot climate",
+                "silt soil cold climate"
+            ],
+            "responses": [
+                "For silt soil outdoors: 1) Daylilies - adaptable perennials with trumpet-shaped blooms 2) Hostas - shade-loving foliage plants in many varieties 3) Serviceberry - ornamental tree with edible berries and multi-season interest. Silt soil has good water retention but can benefit from added organic matter.",
+                "Indoor plants for silt-enriched mix: 1) African Violet - compact flowering plant with fuzzy leaves 2) Ferns - lush greenery that appreciates consistent moisture 3) Calathea - patterned foliage plant with dramatic leaf movements. These plants appreciate the moisture-retentive qualities of silt-rich mixes.",
+                "For silt soil in hot climates: 1) Cannas - tropical-looking with bold foliage and flowers 2) Elephant Ears - dramatic large-leaved statement plants 3) Cardinal Flower - vibrant red blooms that attract hummingbirds. For silt soil in cold climates: 1) Astilbe - feathery plumes in shade 2) Ligularia - bold foliage and yellow flowers 3) Japanese Iris - elegant blooms in moist silt soil."
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["bye", "see you later", "goodbye", "I'm done"],
+            "responses": ["Happy gardening!", "Goodbye! Come back when your garden needs more advice!", "Take care of those plants!"]
+        }
+    ]
+}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useApi } from "@/lib/api-client";
 import { CarbonFootprint } from "@/components/dashboard/carbon-footprint";
 import { GardenChatbot } from "@/components/dashboard/garden-chatbot";
 import { PlantRecommendations } from "@/components/dashboard/plant-recommendations";
@@ -12,6 +13,7 @@ import { useRouter } from "next/navigation";
 export function DashboardClient() {
   const { user } = useAuth();
   const router = useRouter();
+  const api = useApi();
   const [recommendations, setRecommendations] = useState<
     { id?: string; plantName?: string; name?: string }[]
   >([]);
@@ -19,58 +21,58 @@ export function DashboardClient() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Redirect to questionnaire if no recommendations
     if (user) {
       fetchRecommendations();
+      syncOnboardingData();
     }
   }, [user]);
 
   const fetchRecommendations = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/recommendations");
-      if (res.ok) {
-        const data = await res.json();
-        setRecommendations(data.recommendations || []);
-        setError(null);
-      } else {
-        throw new Error("Failed to fetch recommendations");
-      }
+      const data = await api.request("/api/recommendations");
+      setRecommendations(data.recommendations || []);
+      setError(null);
     } catch (error) {
-      console.error("Error fetching recommendations:", error);
-      setError("Failed to load your plant recommendations");
+      console.error("Failed to fetch recommendations:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to load recommendations"
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  if (!user) {
-    return (
-      <div className="container py-8">
-        <Alert>
-          <AlertTitle>Not signed in</AlertTitle>
-          <AlertDescription>
-            Please sign in to view your personalized dashboard.
-            <Button
-              variant="link"
-              onClick={() => router.push("/login")}
-              className="pl-2"
-            >
-              Sign in
-            </Button>
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+  const syncOnboardingData = async () => {
+    const savedData = localStorage.getItem("onboardingData");
+    if (savedData) {
+      try {
+        await api.request("/api/user/onboarding", {
+          method: "POST",
+          body: savedData,
+        });
+        // Only remove from localStorage if successfully saved to server
+        localStorage.removeItem("onboardingData");
+      } catch (error) {
+        console.error("Failed to sync onboarding data:", error);
+      }
+    }
+  };
 
-  const startNewQuestionnaire = () => {
-    router.push("/questionnaire");
+  const navigateHome = () => {
+    router.push("/");
   };
 
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-6">Your Climate-Smart Garden</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Your Climate-Smart Garden</h1>
+        <Button variant="outline" onClick={navigateHome}>
+          Home
+        </Button>
+      </div>
 
       {error && (
         <Alert className="mb-6" variant="destructive">
@@ -88,7 +90,7 @@ export function DashboardClient() {
               recommendations.
               <Button
                 variant="link"
-                onClick={startNewQuestionnaire}
+                onClick={() => router.push("/questionnaire")}
                 className="pl-2"
               >
                 Start Questionnaire
@@ -112,23 +114,12 @@ export function DashboardClient() {
               // other properties
             }))}
         />
-        <GardenChatbot
-          className="h-[600px]"
-          recommendedPlants={recommendations
-            .filter((p) => p.id || p.plantName)
-            .map((p) => ({
-              id:
-                p.id ||
-                p.plantName ||
-                `plant-${Math.random().toString(36).substring(2, 10)}`,
-              name: p.plantName || p.name || "Unknown Plant",
-            }))}
-        />
+        <GardenChatbot />
       </div>
 
-      <div className="mt-10">
-        <CarbonFootprint />
-      </div>
+      <CarbonFootprint />
     </div>
   );
 }
+
+export default DashboardClient;
